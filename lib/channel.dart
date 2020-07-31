@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:covid/controller/age_group_controller.dart';
 import 'package:covid/controller/districtCases_controller.dart';
 import 'package:covid/controller/hospitalCases_controller.dart';
 import 'package:covid/controller/timeline_controller.dart';
@@ -57,6 +58,10 @@ class CovidChannel extends ApplicationChannel {
         .link(() => HospitalCasesController(context));
 
     router.route("/timeline").link(() => TimelineController(context));
+
+    router
+        .route("/agegenderstats/[:age_group]")
+        .link(() => AgeGenderController(context));
 
     router.route("/example").linkFunction((request) async {
       return Response.ok({"key": "value"});

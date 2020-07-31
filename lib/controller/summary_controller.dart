@@ -11,7 +11,9 @@ class SummaryController extends ResourceController {
     final summaryQuery = Query<Summary>(context);
     final summary = await summaryQuery.fetch();
 
-    return Response.ok(summary);
+    return Response.ok(summary)
+      // ignore: prefer_const_constructors
+      ..cachePolicy = CachePolicy(expirationFromNow: Duration(days: 1));
   }
 
   @Operation.put()

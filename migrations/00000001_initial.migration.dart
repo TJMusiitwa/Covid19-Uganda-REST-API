@@ -4,6 +4,44 @@ import 'package:aqueduct/aqueduct.dart';
 class Migration1 extends Migration {
   @override
   Future upgrade() async {
+    database.createTable(SchemaTable("_AgeGender", [
+      SchemaColumn("id", ManagedPropertyType.integer,
+          isPrimaryKey: true,
+          autoincrement: true,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("ageGroup", ManagedPropertyType.string,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("male", ManagedPropertyType.integer,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("female", ManagedPropertyType.integer,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("totalAgeGroup", ManagedPropertyType.integer,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("updatedDate", ManagedPropertyType.datetime,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false)
+    ]));
     database.createTable(SchemaTable("_DistrictCases", [
       SchemaColumn("districtName", ManagedPropertyType.string,
           isPrimaryKey: true,
@@ -49,7 +87,13 @@ class Migration1 extends Migration {
           isIndexed: true,
           isNullable: false,
           isUnique: false),
-      SchemaColumn("cases", ManagedPropertyType.integer,
+      SchemaColumn("admission", ManagedPropertyType.integer,
+          isPrimaryKey: false,
+          autoincrement: false,
+          isIndexed: false,
+          isNullable: false,
+          isUnique: false),
+      SchemaColumn("discharge", ManagedPropertyType.integer,
           isPrimaryKey: false,
           autoincrement: false,
           isIndexed: false,
@@ -204,7 +248,8 @@ class Migration1 extends Migration {
     final seedHospitalCases = [
       {
         'hospitalName': "Entebbe Grade B",
-        'cases': 1,
+        'admission': 1,
+        'discharge': 20,
         'deaths': 0,
         'recoveries': 1,
         'lastUpdated': DateTime.now().toLocal(),
@@ -212,7 +257,8 @@ class Migration1 extends Migration {
       },
       {
         'hospitalName': "Masaka Referral",
-        'cases': 350,
+        'admission': 350,
+        'discharge': 20,
         'deaths': 0,
         'recoveries': 402,
         'lastUpdated': DateTime.now().toLocal(),
@@ -220,7 +266,8 @@ class Migration1 extends Migration {
       },
       {
         'hospitalName': "Namisindwa Hospital",
-        'cases': 1166,
+        'admission': 1166,
+        'discharge': 20,
         'deaths': 2,
         'recoveries': 980,
         'lastUpdated': DateTime.now().toLocal(),
@@ -229,10 +276,11 @@ class Migration1 extends Migration {
     ];
     for (final hospitalCase in seedHospitalCases) {
       await database.store.execute(
-          "INSERT INTO _HospitalCases (hospitalName,cases, deaths, recoveries,lastUpdated, createdDate) VALUES (@hospitalName,@cases, @deaths, @recoveries,@lastUpdated,@createdDate)",
+          "INSERT INTO _HospitalCases (hospitalName,admission,discharge, deaths, recoveries,lastUpdated, createdDate) VALUES (@hospitalName,@admission, @discharge, @deaths, @recoveries,@lastUpdated,@createdDate)",
           substitutionValues: {
             "hospitalName": hospitalCase['hospitalName'],
-            "cases": hospitalCase['cases'],
+            "admission": hospitalCase['admission'],
+            "discharge": hospitalCase['discharge'],
             "deaths": hospitalCase['deaths'],
             "recoveries": hospitalCase['recoveries'],
             'lastUpdated': hospitalCase['lastUpdated'],
@@ -276,6 +324,56 @@ class Migration1 extends Migration {
             "deaths": districtCase['deaths'],
             "recoveries": districtCase['recoveries'],
             "lastUpdated": districtCase['lastUpdated']
+          });
+    }
+
+    final seedAgeGender = [
+      {
+        'ageGroup': '0-9',
+        'male': 5,
+        'female': 6,
+        'totalAgeGroup': 11,
+        'updatedDate': DateTime.now().toLocal()
+      },
+      {
+        'ageGroup': '10-19',
+        'male': 0,
+        'female': 6,
+        'totalAgeGroup': 6,
+        'updatedDate': DateTime.now().toLocal()
+      },
+      {
+        'ageGroup': '20-39',
+        'male': 25,
+        'female': 6,
+        'totalAgeGroup': 31,
+        'updatedDate': DateTime.now().toLocal()
+      },
+      {
+        'ageGroup': '40-59',
+        'male': 20,
+        'female': 16,
+        'totalAgeGroup': 36,
+        'updatedDate': DateTime.now().toLocal()
+      },
+      {
+        'ageGroup': '60-79',
+        'male': 0,
+        'female': 2,
+        'totalAgeGroup': 2,
+        'updatedDate': DateTime.now().toLocal()
+      },
+    ];
+
+    for (final ageGenderItem in seedAgeGender) {
+      await database.store.execute(
+          "INSERT INTO _AgeGender(ageGroup,male,female,totalAgeGroup,updatedDate) VALUES (@ageGroup, @male, @female, @totalAgeGroup,@updatedDate)",
+          substitutionValues: {
+            "ageGroup": ageGenderItem['ageGroup'],
+            "male": ageGenderItem['male'],
+            "female": ageGenderItem['female'],
+            "totalAgeGroup": ageGenderItem['totalAgeGroup'],
+            "updatedDate": ageGenderItem['updatedDate'],
           });
     }
   }

@@ -14,4 +14,18 @@ class TestsController extends ResourceController {
 
     return Response.ok(tests);
   }
+
+  @Operation.put()
+  Future<Response> putTestsSummary() async {
+    final tests = Tests()
+      ..read(await request.body.decode(), ignore: ["id", "lastUpdated"]);
+
+    final query = Query<Tests>(context)
+      ..values = tests
+      ..where((t) => t.lastUpdated).lessThan(DateTime.now().toLocal());
+
+    final updateTests = await query.updateOne();
+
+    return Response.ok(updateTests);
+  }
 }

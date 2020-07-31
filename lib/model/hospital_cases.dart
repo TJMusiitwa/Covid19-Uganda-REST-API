@@ -19,7 +19,10 @@ class _HospitalCases {
   String hospitalName;
 
   @Column(nullable: false)
-  int cases;
+  int admission;
+
+  @Column(nullable: false)
+  int discharge;
 
   @Column(nullable: false)
   int deaths;
