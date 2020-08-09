@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:aqueduct/managed_auth.dart';
 import 'package:covid/controller/age_group_controller.dart';
 import 'package:covid/controller/districtCases_controller.dart';
 import 'package:covid/controller/hospitalCases_controller.dart';
+import 'package:covid/controller/register_controller.dart';
 import 'package:covid/controller/timeline_controller.dart';
+import 'package:covid/model/user.dart';
 
 import 'controller/summary_controller.dart';
 import 'covid.dart';
@@ -20,6 +23,9 @@ class CovidChannel extends ApplicationChannel {
   ///
   /// This method is invoked prior to [entryPoint] being accessed.
   ManagedContext context;
+
+  AuthServer authServer;
+
   @override
   Future prepare() async {
     logger.onRecord.listen(
@@ -35,6 +41,9 @@ class CovidChannel extends ApplicationChannel {
     );
 
     context = ManagedContext(dataModel, persistentStore);
+//TODO: Pay attention to this and fix when possible.
+    final authStorage = ManagedAuthDelegate<User>(context);
+    authServer = AuthServer(authStorage);
   }
 
   /// Construct the request channel.
@@ -62,6 +71,12 @@ class CovidChannel extends ApplicationChannel {
     router
         .route("/agegenderstats/[:age_group]")
         .link(() => AgeGenderController(context));
+
+    router
+        .route("/register")
+        .link(() => RegisterController(context, authServer));
+
+    router.route("/auth/token").link(() => AuthController(authServer));
 
     router.route("/example").linkFunction((request) async {
       return Response.ok({"key": "value"});

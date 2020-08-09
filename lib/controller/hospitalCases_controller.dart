@@ -30,17 +30,31 @@ class HospitalCasesController extends ResourceController {
   Future<Response> updateHospital(
       @Bind.path("hospital_name") String hospitalName,
       @Bind.body(ignore: ["lastUpdated"]) HospitalCases hospitalCases) async {
+    final hospitalCase = HospitalCases()..read(await request.body.decode());
+
     final hospitalQueryByName = Query<HospitalCases>(context)
+      ..values = hospitalCase
       ..where((h) => h.hospitalName).equalTo(hospitalName);
 
     final updateHospital = await hospitalQueryByName.updateOne();
     return Response.ok(updateHospital);
   }
 
+  // @Operation.put("hospital_name")
+  // Future<Response> updateDistrict() async {
+  //   final hospitalCase = HospitalCases()..read(await request.body.decode());
+
+  //   final query = Query<HospitalCases>(context)..values = hospitalCase
+  //   ..where((h) => h.hospitalName).equalTo(hospitalCase.hospitalName);
+
+  //   final updateHospital = await query.updateOne();
+
+  //   return Response.ok(updateHospital);
+  // }
+
   @Operation.post()
   Future<Response> addHospital() async {
-    final hospital = HospitalCases()
-      ..read(await request.body.decode(), ignore: ["lastUpdated"]);
+    final hospital = HospitalCases()..read(await request.body.decode());
 
     final hospitalEntryQuery = Query<HospitalCases>(context)..values = hospital;
 

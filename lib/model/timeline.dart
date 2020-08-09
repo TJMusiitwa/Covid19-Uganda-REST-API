@@ -12,7 +12,7 @@ class _Timeline {
   @Column(primaryKey: true, autoincrement: true, omitByDefault: true)
   int id;
 
-  @Column(nullable: false)
+  @Column(nullable: false, unique: true)
   DateTime createdAt;
 
   @Column(nullable: false)

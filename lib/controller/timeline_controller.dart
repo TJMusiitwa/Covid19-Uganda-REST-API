@@ -10,9 +10,11 @@ class TimelineController extends ResourceController {
   @Operation.get()
   Future<Response> getTimeline() async {
     final timelineQuery = Query<Timeline>(context);
+    timelineQuery.sortBy((t) => t.createdAt, QuerySortOrder.ascending);
     final timeline = await timelineQuery.fetch();
 
-    return Response.ok(timeline);
+    return Response.ok(timeline)
+      ..cachePolicy = const CachePolicy(expirationFromNow: Duration(days: 1));
   }
 
   @Operation.post()

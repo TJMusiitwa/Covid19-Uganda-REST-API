@@ -1,6 +1,12 @@
 # Covid-19 Uganda API
-A REST API created with Dart with the Aqueduct framework to provide access to data relating to the Covid-19 pandemic in Uganda.
-Deployed on Heroku. A GraphQL version of this API is in the works. More information soon.
+A REST/GraphQ API created with Dart with the Aqueduct framework and Hasura, respectively, to provide access to data relating to the Covid-19 pandemic in Uganda
+Deployed on Heroku.
+
+_Still very much a work in progress with some small improvements down the road_
+
+REST API URL: https://covid19-uganda-rest-api.herokuapp.com/
+
+GRAPHQL API URL: https://covid19-uganda-graph-api.herokuapp.com
 
 ![GitHub deployments](https://img.shields.io/github/deployments/TJMusiitwa/Covid19-Uganda-REST-API/covid19-uganda-rest-api?label=Heroku%20Deploy&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/TJMusiitwa/Covid19-Uganda-REST-API?style=for-the-badge) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TJMusiitwa/Covid19-Uganda-REST-API?style=for-the-badge) ![GitHub top language](https://img.shields.io/github/languages/top/TJMusiitwa/Covid19-Uganda-REST-API?style=for-the-badge)
 

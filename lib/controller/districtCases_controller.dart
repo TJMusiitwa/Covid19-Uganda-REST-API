@@ -53,12 +53,14 @@ class DistrictCasesController extends ResourceController {
 
   //   return Response.ok(postedDistrictCase);
   // }
-
   @Operation.put("district_name")
   Future<Response> updateDistrictByName(
       @Bind.path("district_name") String districtName,
       @Bind.body(ignore: ["lastUpdated"]) DistrictCases districtCases) async {
+    final districtCase = DistrictCases()..read(await request.body.decode());
+
     final query = Query<DistrictCases>(context)
+      ..values = districtCase
       ..where((x) => x.districtName).equalTo(districtName);
 
     final updatedDistrictCase = await query.updateOne();

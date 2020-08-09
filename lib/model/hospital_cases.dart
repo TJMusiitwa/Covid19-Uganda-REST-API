@@ -11,6 +11,7 @@ class HospitalCases extends ManagedObject<_HospitalCases>
   @override
   void willInsert() {
     createdDate = DateTime.now().toLocal();
+    lastUpdated = DateTime.now().toLocal();
   }
 }
 
@@ -26,9 +27,6 @@ class _HospitalCases {
 
   @Column(nullable: false)
   int deaths;
-
-  @Column(nullable: false)
-  int recoveries;
 
   @Column(nullable: false)
   DateTime lastUpdated;

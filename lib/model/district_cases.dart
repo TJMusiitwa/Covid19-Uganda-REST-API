@@ -7,6 +7,11 @@ class DistrictCases extends ManagedObject<_DistrictCases>
   void willUpdate() {
     lastUpdated = DateTime.now().toLocal();
   }
+
+  @override
+  void willInsert() {
+    lastUpdated = DateTime.now().toLocal();
+  }
 }
 
 class _DistrictCases {

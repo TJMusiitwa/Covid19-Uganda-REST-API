@@ -9,9 +9,11 @@ class AgeGenderController extends ResourceController {
   @Operation.get()
   Future<Response> getAgeGenderStats() async {
     final ageGenderQuery = Query<AgeGender>(context);
+    ageGenderQuery.sortBy((ag) => ag.ageGroup, QuerySortOrder.ascending);
     final stat = await ageGenderQuery.fetch();
 
-    return Response.ok(stat);
+    return Response.ok(stat)
+      ..cachePolicy = const CachePolicy(expirationFromNow: Duration(days: 1));
   }
 
   @Operation.get('age_group')

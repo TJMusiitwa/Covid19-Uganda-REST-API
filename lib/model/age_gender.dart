@@ -15,6 +15,11 @@ class AgeGender extends ManagedObject<_AgeGender> implements _AgeGender {
   void calcTotal() {
     totalAgeGroup = male + female;
   }
+
+  @override
+  void willInsert() {
+    updatedDate = DateTime.now().toLocal();
+  }
 }
 
 class _AgeGender {
