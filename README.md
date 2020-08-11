@@ -4,7 +4,7 @@ Deployed on Heroku.
 
 _Still very much a work in progress with some small improvements down the road_
 
-REST API URL: https://covid19-uganda-rest-api.herokuapp.com/
+REST API URL: https://ug-covid19-rest-api.herokuapp.com/
 
 GRAPHQL API URL: https://covid19-uganda-graph-api.herokuapp.com
 
