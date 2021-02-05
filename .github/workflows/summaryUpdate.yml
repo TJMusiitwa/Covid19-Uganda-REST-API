@@ -33,7 +33,7 @@ jobs:
         id: remoteData
         uses: CamiloGarciaLaRotta/watermelon-http-client@v1
         with:
-          url: 'https://covid19-api.com/country/code?code=UG&format=json'
+          url: 'https://covid19-api.org/api/status/UG'
       
       # Print the returned output  
       - name: Print the response payload
@@ -47,7 +47,7 @@ jobs:
         with:
           url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
           method: put
-          data: '{ "cases": steps.remoteData.outputs.response.confirmed, "deaths": steps.remoteData.outputs.response.deaths, "recoveries": steps.remoteData.outputs.response.recovered }'
+          data: '{ "cases": steps.remoteData.outputs.response.cases, "deaths": steps.remoteData.outputs.response.deaths, "recoveries": steps.remoteData.outputs.response.recovered }'
     
     # Print the returned output  
       - name: Print the response payload
