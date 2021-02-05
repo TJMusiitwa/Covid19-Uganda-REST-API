@@ -39,12 +39,14 @@ jobs:
       - name: Print the response payload
         run: echo ${{ steps.remoteData.outputs.response }}
         shell: bash
+        
+        
       
       - id: setOut
         run: | 
-          echo "::set-output name=cases::${{ steps.remoteData.outputs.response.cases }}"
-          echo "::set-output name=deaths::${{ steps.remoteData.outputs.response.deaths }}"
-          echo "::set-output name=recovered::${{ steps.remoteData.outputs.response.recovered }}"
+          echo ::set-output name=cases::"${{ steps.remoteData.outputs.response.cases }}"
+          echo ::set-output name=deaths::"${{ steps.remoteData.outputs.response.deaths }}"
+          echo ::set-output name=recovered::"${{ steps.remoteData.outputs.response.recovered }}"
         shell: bash
             
     # Runs command to update the UG Covid 19 Summary enpoint with data from the previous step
@@ -54,7 +56,7 @@ jobs:
         with:
           url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
           method: put
-          data: '{ "cases": ${${{ steps.setOut.outputs.cases }}}, "deaths": ${${{ steps.setOut.outputs.deaths }}}, "recoveries": ${${{ steps.setOut.outputs.recovered }}} }'
+          data: '{ "cases": ${{ steps.setOut.outputs.cases }}, "deaths": ${{ steps.setOut.outputs.deaths }}, "recoveries": ${{ steps.setOut.outputs.recovered }} }'
     
     # Print the returned output  
       - name: Print the response payload
