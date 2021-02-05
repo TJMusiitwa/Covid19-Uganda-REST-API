@@ -21,12 +21,12 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs command to wake up heroku container
-      - name: Wake up the container,if not active
-        uses: cygnetdigital/wait_for_response@v2.0.0
-        with:
-          url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
-          responseCode: '200'
-          interval: 1000
+      #- name: Wake up the container,if not active
+      #  uses: cygnetdigital/wait_for_response@v2.0.0
+      #  with:
+      #    url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
+      #    responseCode: '200'
+      #    interval: 1000
 
       # Runs command to fetch that day's summary
       - name: Fetch the new summary data for that day
