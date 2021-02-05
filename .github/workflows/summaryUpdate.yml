@@ -39,6 +39,9 @@ jobs:
       - name: Print the response payload
         run: echo ${{ steps.remoteData.outputs.response }}
         shell: bash
+      
+      - run: echo ${{ steps.remoteData.outputs.response.cases }}
+        shell: bash
             
     # Runs command to update the UG Covid 19 Summary enpoint with data from the previous step
       - name: Fetch the new summary data for that day
