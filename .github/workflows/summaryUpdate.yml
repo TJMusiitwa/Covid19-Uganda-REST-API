@@ -1,0 +1,56 @@
+name: Update Covid19 API Ugandan Summary
+
+# Action will run once everyday at 2:30 UTC time 
+on:
+  schedule:
+    - cron: "30 2 * * SUN-SAT"
+      
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs command to wake up heroku container
+      - name: Wake up the container,if not active
+        uses: cygnetdigital/wait_for_response@v2.0.0
+        with:
+          url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
+          responseCode: '200'
+          timeout: 2000
+          interval: 500
+
+      # Runs command to fetch that day's summary
+      - name: Fetch the new summary data for that day
+        id: remoteData
+        uses: CamiloGarciaLaRotta/watermelon-http-client@v1
+        with:
+          url: 'https://covid19-api.com/country/code?code=UG&format=json'
+      
+      # Print the returned output  
+      - name: Print the response payload
+        run: echo ${{ steps.remoteData.outputs.response }}
+        shell: bash
+            
+    # Runs command to update the UG Covid 19 Summary enpoint with data from the previous step
+      - name: Fetch the new summary data for that day
+        id: putSummary
+        uses: CamiloGarciaLaRotta/watermelon-http-client@v1
+        with:
+          url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
+          method: put
+          data: '{ "cases": steps.remoteData.outputs.response.confirmed, "deaths": steps.remoteData.outputs.response.deaths, "recoveries": steps.remoteData.outputs.response.recovered }'
+    
+    # Print the returned output  
+      - name: Print the response payload
+        run: echo ${{ steps.putSummary.outputs.response }}
+        shell: bash
