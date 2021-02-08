@@ -37,10 +37,9 @@ jobs:
       
       # Print the returned output  
       - name: Print the response payload
-        run: echo ${{ steps.remoteData.outputs.response.value }}
+        run: echo ${{ steps.remoteData.outputs.response }}
         shell: bash
-        
-        
+              
       
       - id: setOut
         run: | 
