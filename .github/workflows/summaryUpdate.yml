@@ -37,10 +37,26 @@ jobs:
       
       # Print the returned output  
       - name: Print the response payload
-        run: echo ${{ steps.remoteData.outputs.response.cases }}
+        run: echo ${{ steps.remoteData.outputs.response }}
         shell: bash
-              
       
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "response.json"
+          json: ${{ steps.remoteData.outputs.response }}        
+      
+      - name: JSON to variables
+        uses: antifree/json-to-variables@v1.0.1
+        with:
+          filename: 'response.json'
+          
+
+      - name: Show output
+        run: echo "The cases are ${{ env.cases }}"
+     
+     
       - id: setOut
         run: | 
           echo "::set-output name=cases::$(steps.remoteData.outputs.response.cases)"
