@@ -64,7 +64,7 @@ jobs:
         with:
           url: 'https://ug-covid19-rest-api.herokuapp.com/summary'
           method: put
-          data: '{ "cases": ${{ steps.setOut.outputs.cases }}, "deaths": ${{ steps.setOut.outputs.deaths }}, "recoveries": ${{ steps.setOut.outputs.recovered }} }'
+          data: '{ "cases": ${{ env.json_cases }}, "deaths": ${{ env.json_deaths }}, "recoveries": ${{ env.json_recovered }} }'
     
     # Print the returned output  
       - name: Print the response payload
