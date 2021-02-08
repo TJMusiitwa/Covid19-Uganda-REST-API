@@ -54,15 +54,8 @@ jobs:
           
 
       - name: Show output
-        run: echo "The cases are ${{ env.cases }}"
+        run: echo "The cases are ${{ env.json_cases }}"
      
-     
-      - id: setOut
-        run: | 
-          echo "::set-output name=cases::$(steps.remoteData.outputs.response.cases)"
-          echo "::set-output name=deaths::$(steps.remoteData.outputs.response.deaths)"
-          echo "::set-output name=recovered::$(steps.remoteData.outputs.response.recovered)"
-        shell: bash
             
     # Runs command to update the UG Covid 19 Summary enpoint with data from the previous step
       - name: Fetch the new summary data for that day
