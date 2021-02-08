@@ -37,7 +37,7 @@ jobs:
       
       # Print the returned output  
       - name: Print the response payload
-        run: echo ${{ steps.remoteData.outputs.response }}
+        run: echo ${{ steps.remoteData.outputs.response.cases }}
         shell: bash
               
       
